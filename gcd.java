@@ -28,8 +28,14 @@ public class gcd {
        
        System.out.println("Algorithm 1.1\nAnswer = " + algorithm1_1(a, b));
 
-       System.out.println("\n\nalgorithm1.2\nAnswer = " + algorithm1_2(a, b));
+       System.out.println("\n\nalgorithm1.2\nAnswer = ");
+       displayBigIntArray(algorithm1_2(a,b));
+
+       in.close();
     }
+
+
+    //* GCD 
     public static BigInteger algorithm1_1(BigInteger a, BigInteger b)
     {
         BigInteger r;
@@ -54,7 +60,7 @@ public class gcd {
     public static BigInteger[] algorithm1_2(BigInteger a, BigInteger b)
     {
         BigInteger[] returnArray = new BigInteger[3];
-        BigInteger d;
+        BigInteger d = algorithm1_1(a, b);
         BigInteger[] x = new BigInteger[3];
         BigInteger[] y = new BigInteger[3];
 
@@ -62,8 +68,8 @@ public class gcd {
         if(b.equals(BigInteger.ZERO))
         {
             d = a;
-            x[0] = 1;
-            y[1]= 0;
+            x[0] = BigInteger.ONE;
+            y[1]= BigInteger.ZERO;
             returnArray[0] = d;
             returnArray[1] = x[0];
             returnArray[2] = y[0];
@@ -72,10 +78,10 @@ public class gcd {
         //todo 2. Set x2 ← 1, x1 ← 0, y2 ← 0, y1 ← 1. 
         else{
 
-            x[1] = 0;
-            x[2] = 1;
-            y[1] = 0;
-            y[2] = 1;
+            x[1] = BigInteger.ZERO;
+            x[2] = BigInteger.ONE;
+            y[1] = BigInteger.ZERO;
+            y[2] = BigInteger.ONE;
 
 
         //todo 3. While b > 0 do the following:
@@ -85,7 +91,7 @@ public class gcd {
                 //todo ~ q ← a/b
                 BigInteger q = a.divide(b);
                 //todo ~ r ← a − qb
-                BigInteger r = a.subtract(q.multiply(b));
+                BigInteger r = algorithm1_1(a, b);
                 //todo ~ x ← x2 − qx1
                 x[0] = x[2].subtract(q.multiply(x[1]));
                 //todo ~ y ← y2 − qy1
@@ -117,42 +123,24 @@ public class gcd {
             return(returnArray);
         }
     }
-     
 
 
-    
-    public static int xModYOne(int x, int y){
-        int ans;
-        ans = x%y;
-        return ans;
-    }
-    
-    public static int xModYTwo(int x, int y){
-        int ans;
-        double z = (double)x/y;
-        double r = z-Math.floor(z);
-        ans = (int)(r*y);
-        
-        return ans;
-    }
-    
-    public static int xModYThree(int x, int y){
-        while(x>=y){
-            x = x - y;
+
+    public static void displayBigIntArray(BigInteger[] ans)
+    {
+        for(BigInteger b: ans)
+        {
+            System.out.println(b);
         }
-        
-        return x;
     }
-    public static int xModYFour(int x, int y){
-        x= x - ((x/y)*y);
-        
-        return x;
-    }
+     
+    
+    
     public static void readnumbers()
     {
-        Scanner keyboard = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         System.out.println("Please enter a file name to read from: ");
-        String filename = keyboard.nextLine();
+        String filename = in.nextLine();
 
         try {
             Scanner myFile = new Scanner(new File(filename));
@@ -165,11 +153,6 @@ public class gcd {
                     try {
                         BigInteger a = new BigInteger(data[0]);
                         BigInteger b = new BigInteger(data[1]);
-//                        System.out.println("\nTest ans :\t"+a%b);
-//                        System.out.println("Algorithm 1\t:\t"+xModYOne(a,b));
-//                        System.out.println("Algorithm 2 "+a+" mod "+b+"\t:\t "+xModYTwo(a,b));
-//                        System.out.println("Algorithm 3\t:\t"+xModYThree(a,b));
-//                        System.out.println("Algorithm 4 "+a+" mod "+b+"\t:\t "+xModYFour(a,b));
                         
                         System.out.println("The result of "+a+" modulo "+b+" is = "+algorithm1_1(a,b));
                     } catch (NumberFormatException e) {
@@ -180,7 +163,9 @@ public class gcd {
                 {
                     System.out.println("Line " + lineCount + " was not formatted properly: \"" + line + "\"");
                 }
+
             }
+            myFile.close();
         } catch (FileNotFoundException fe) {
             System.out.println("That file was not found in the system, sorry.");
         }
