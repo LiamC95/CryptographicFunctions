@@ -50,57 +50,75 @@ public class gcd {
 
 
     //? Trying to apply the extended euclidian alg.
-    public static BigInteger algorithm1_2(BigInteger a, BigInteger b)
+    //? xa + yb = d
+    public static BigInteger[] algorithm1_2(BigInteger a, BigInteger b)
     {
-        if(a.compareTo(b) == 1 || a.compareTo(b) == 0)
+        BigInteger[] returnArray = new BigInteger[3];
+        BigInteger d;
+        BigInteger[] x = new BigInteger[3];
+        BigInteger[] y = new BigInteger[3];
+
+        //todo 1. if b = 0 then set d ← a, x ← 1, y ← 0, and return (d, x, y)
+        if(b.equals(BigInteger.ZERO))
         {
-           return algorithm1_1(a, b);
+            d = a;
+            x[0] = 1;
+            y[1]= 0;
+            returnArray[0] = d;
+            returnArray[1] = x[0];
+            returnArray[2] = y[0];
+            return(returnArray);
         }
+        //todo 2. Set x2 ← 1, x1 ← 0, y2 ← 0, y1 ← 1. 
         else{
-            return algorithm1_1(a, b);
+
+            x[1] = 0;
+            x[2] = 1;
+            y[1] = 0;
+            y[2] = 1;
+
+
+        //todo 3. While b > 0 do the following:
+            //? This compare to method returns 1 if b is larger than 0
+            while(b.compareTo(BigInteger.ZERO) == 1)
+            {
+                //todo ~ q ← a/b
+                BigInteger q = a.divide(b);
+                //todo ~ r ← a − qb
+                BigInteger r = a.subtract(q.multiply(b));
+                //todo ~ x ← x2 − qx1
+                x[0] = x[2].subtract(q.multiply(x[1]));
+                //todo ~ y ← y2 − qy1
+                y[0] = y[2].subtract(q.multiply(y[1]));
+
+                //todo  a, b ← r
+                b = r;
+
+                //todo x2 ← x1
+                x[2] = x[1];
+                //todo  x1 ← x
+                x[1] = x[0];
+                //todo y2 ← y1
+                y[2] = y[1];
+                //todo  y1 ← y
+                y[1] = y[0];
+                
+            }
+
+            //todo 4. Set d ← a, x ← x2, y ← y2, and return (d, x, y).
+            d = a;
+            x[0] = x[2];
+            y[0] = y[2];
+
+            returnArray[0] = d;
+            returnArray[1] = x[0];
+            returnArray[2] = y[0];
+
+            return(returnArray);
         }
     }
      
 
-/*
-    public static BigInteger gcdLiam(BigInteger a, BigInteger b)
-    {
-        BigInteger q;
-        BigInteger r = new BigInteger("1");
-        //* we first have to reduce the the numbers down 
-        //? x = y * q + r
-
-        
-        while(1!=0)
-        {
-            
-            q = a.mod(b);
-
-            r = (a).subtract(b.multiply(q));
-                        
-            a = b;
-            b = r;
-
-            System.out.println("a = "+ a);
-
-            System.out.println("b = "+ b);
-    
-            System.out.println("r = "+ r);
-    
-            System.out.println("q = "+ q);
-            if(b.compareTo(BigInteger.ZERO)>0)
-            {
-                return a;
-            }
-            
-        }
-
-        
-        
-
-    }
-
-    */
 
     
     public static int xModYOne(int x, int y){
