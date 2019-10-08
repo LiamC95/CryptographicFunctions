@@ -7,29 +7,34 @@ import java.util.Scanner;
 
 /**
  *
- * @author grahamm
+ * @author Liam Clarke
  */
 public class gcd {
 
     public static void main(String[] args)
     {
     Scanner in = new Scanner(System.in);
-   
-// !    Getting in two integer values.        
-       System.out.println("Please Enter first Big int");
-       BigInteger a = in.nextBigInteger();
+   /*
+    // !    Getting in two integer values.        
+    //     System.out.println("Please Enter first Big int");
+    //     BigInteger a = in.nextBigInteger();
+    //      
+    //     System.out.println("\n\n");
+    //
+    //     System.out.println("Please Enter second Big int");
+    //     BigInteger b = in.nextBigInteger();
         
-       System.out.println("\n\n");
+*/
 
-       System.out.println("Please Enter second Big int");
-       BigInteger b = in.nextBigInteger();
-        
+BigInteger a = BigInteger.valueOf(4864);
+
+BigInteger b = BigInteger.valueOf(3458);
 
        
        System.out.println("Algorithm 1.1\nAnswer = " + algorithm1_1(a, b));
 
        System.out.println("\n\nalgorithm1.2\nAnswer = ");
-       displayBigIntArray(algorithm1_2(a,b));
+       displayAlg1_2(algorithm1_2(a,b));
 
        in.close();
     }
@@ -59,6 +64,12 @@ public class gcd {
     //? xa + yb = d
     public static BigInteger[] algorithm1_2(BigInteger a, BigInteger b)
     {
+        if(a.compareTo(b)==-1)
+        {
+            BigInteger temp = b;
+            b = a;
+            a = temp;
+        }
         BigInteger[] returnArray = new BigInteger[3];
         BigInteger d = algorithm1_1(a, b);
         BigInteger[] x = new BigInteger[3];
@@ -126,7 +137,7 @@ public class gcd {
 
 
 
-    public static void displayBigIntArray(BigInteger[] ans)
+    public static void displayAlg1_2(BigInteger[] ans)
     {
         for(BigInteger b: ans)
         {
