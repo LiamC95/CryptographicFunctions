@@ -14,27 +14,16 @@ public class gcd {
 
     public static void main(String[] args)
     {
-    Scanner in = new Scanner(System.in);
-   /*
-    //     Getting in two integer values.        
-    //     System.out.println("Please Enter first Big int");
-    //     BigInteger a = in.nextBigInteger();
-    //      
-    //     System.out.println("\n\n");
-    //
-    //     System.out.println("Please Enter second Big int");
-    //     BigInteger b = in.nextBigInteger();
-        
-*/
+        Scanner in = new Scanner(System.in);
 
-BigInteger a = BigInteger.valueOf(4864);
+        BigInteger a = BigInteger.valueOf(4864);
 
-BigInteger b = BigInteger.valueOf(3458);
+        BigInteger b = BigInteger.valueOf(3458);
 
        
        System.out.println("Euclidian algorithm\nAnswer = " + algorithm1_1(a, b));
 
-       System.out.println("\n\nExtended euclidian algorithm\nAnswer = ");
+       System.out.println("\n\nExtended euclidian algorithm : \n");
        displayAlg1_2(extendedEuclidianAlg(a,b));
 
        in.close();
@@ -103,11 +92,13 @@ BigInteger b = BigInteger.valueOf(3458);
         //todo : while b>0 do 
         while(b.compareTo(BigInteger.ZERO)!=0)
         {
+            
             //todo : q ← ba/bc, r ← a − qb, x ← x2 − qx1, y ← y2 − qy1
             q = a.divide(b);
-            r = algorithm1_1(a, b);
+            r = a.subtract(q.multiply(b));
             extEuclidLine[1] = xValue[1].subtract(q.multiply(xValue[0]));
             extEuclidLine[2] = yValue[1].subtract(q.multiply(yValue[0]));
+            
 
             //todo : a, b ← r, x2 ← x1, x1 ← x, y2 ← y1 and y1 ← y.
             a = b;
@@ -116,17 +107,25 @@ BigInteger b = BigInteger.valueOf(3458);
             xValue[0] = extEuclidLine[1];
             yValue[1] = yValue[0];
             yValue[0] = extEuclidLine[2];
-            extEuclidLine[0] = a;
-            extEuclidLine[1] = xValue[1];
-            extEuclidLine[2] = yValue[1];
         }
-        //todo : d ← a, x ← x2, y ← y2, and return (d, x, y).
-        
 
+        //todo : d ← a, x ← x2, y ← y2, and return (d, x, y).
+        extEuclidLine[0] = a;
+        extEuclidLine[1] = xValue[1];
+        extEuclidLine[2] = yValue[1];
         return extEuclidLine;
     }
 
 
+    public static void displayBigIntArray(BigInteger[] x)
+    {
+        int count = 0;
+        for(BigInteger i: x)
+        {
+            count ++;
+            System.out.println("Big integer "+count+" = "+i);
+        }
+    }
 
     public static void displayAlg1_2(BigInteger[] ans)
     {
@@ -135,40 +134,5 @@ BigInteger b = BigInteger.valueOf(3458);
      
     
     
-    public static void readnumbers()
-    {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Please enter a file name to read from: ");
-        String filename = in.nextLine();
-
-        try {
-            Scanner myFile = new Scanner(new File(filename));
-            int lineCount = 0;
-            while (myFile.hasNextLine()) {
-                lineCount++;
-                String line = myFile.nextLine();
-                String[] data = line.split(" ");
-                if (data.length == 2) {
-                    try {
-                        BigInteger a = new BigInteger(data[0]);
-                        BigInteger b = new BigInteger(data[1]);
-                        
-                        System.out.println("The result of "+a+" modulo "+b+" is = "+algorithm1_1(a,b));
-                    } catch (NumberFormatException e) {
-                        System.out.println("An exception occurred while parsing numbers from line " + lineCount + " : " + line);
-                    }
-                }
-                else
-                {
-                    System.out.println("Line " + lineCount + " was not formatted properly: \"" + line + "\"");
-                }
-
-            }
-            myFile.close();
-        } catch (FileNotFoundException fe) {
-            System.out.println("That file was not found in the system, sorry.");
-        }
-        
-    }
 
 }
