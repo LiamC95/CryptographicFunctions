@@ -12,15 +12,15 @@ public class labOne {
     {
         Scanner in = new Scanner(System.in);
 
-        BigInteger a = BigInteger.valueOf(4864);
+        BigInteger a = BigInteger.valueOf(42823);
 
-        BigInteger b = BigInteger.valueOf(3458);
+        BigInteger b = BigInteger.valueOf(6409);
 
        
        System.out.println("Euclidian algorithm\nAnswer = " + euclidianAlg(a, b));
 
        System.out.println("\n\nExtended euclidian algorithm : \n");
-       displayAlg1_2(extendedEuclidianAlg(a,b));
+       displayDXY(extendedEuclidianAlg(a,b));
 
        in.close();
     }
@@ -134,7 +134,6 @@ public class labOne {
             yValue[1] = yValue[0];
 
             yValue[0] = arrayDXY[2];
-            displayAlg1_2(arrayDXY);
         }
 
         //todo : d ← a, x ← x2, y ← y2, and return (d, x, y).
@@ -161,9 +160,10 @@ public class labOne {
         System.out.println("d value = "+ans[0]+"\nx value = "+ ans[1] + "\ny value = "+ ans[2] + "\n");
     }
      
-    public static BigInteger modInverse(BigInteger a, BigInteger n)
+   /* public static BigInteger modInverse(BigInteger a, BigInteger n)
     {
         
     }
+    */
 
 }
