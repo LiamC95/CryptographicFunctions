@@ -17,17 +17,17 @@ public class labOne {
         BigInteger b = BigInteger.valueOf(6409);
 
        
-       System.out.println("Euclidian algorithm\nAnswer = " + euclidianAlg(a, b));
+       System.out.println("Euclidian algorithm\nAnswer = " + myGCD(a, b));
 
        System.out.println("\n\nExtended euclidian algorithm : \n");
-       displayDXY(extendedEuclidianAlg(a,b));
+       displayDXY(myExtGCD(a,b));
 
        in.close();
     }
 
 
     //* GCD 
-    public static BigInteger euclidianAlg(BigInteger a, BigInteger b)
+    public static BigInteger myGCD(BigInteger a, BigInteger b)
     {
 
 
@@ -39,7 +39,7 @@ public class labOne {
         //todo : Have to if a is greater than b value or swap values
         if(a.compareTo(b) == -1)
         {
-           return euclidianAlg(b, a);
+           return myGCD(b, a);
         }
 
 
@@ -63,7 +63,7 @@ public class labOne {
         return a;
     }
 
-    public static BigInteger[] extendedEuclidianAlg(BigInteger a, BigInteger b)
+    public static BigInteger[] myExtGCD(BigInteger a, BigInteger b)
     {
         /*
         !      Array Values
@@ -79,7 +79,7 @@ public class labOne {
         //todo : Have to if a is greater than b value or swap values
         if(a.compareTo(b) == -1)
         {
-           return extendedEuclidianAlg(b, a);
+           return myExtGCD(b, a);
         }
 
         //* Now to begin coding the algorithm
@@ -160,10 +160,19 @@ public class labOne {
         System.out.println("d value = "+ans[0]+"\nx value = "+ ans[1] + "\ny value = "+ ans[2] + "\n");
     }
      
-   /* public static BigInteger modInverse(BigInteger a, BigInteger n)
+    public static BigInteger findModInverse(BigInteger a, BigInteger n)
     {
-        
+        BigInteger[] DXY = myExtGCD(a, n);
+        //* Looks to see if ints are coprime
+        if(DXY[0].compareTo(BigInteger.ONE) == 1)
+        {
+            throw new ArithmeticException("Numbers are not co-prime!");
+        }
+        else{
+            //* returning X value 
+            return DXY[1];
+        }
     }
-    */
-
+    
+   //// public static void 
 }
