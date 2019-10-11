@@ -10,19 +10,18 @@ public class labOne {
 
     public static void main(String[] args)
     {
-        Scanner in = new Scanner(System.in);
+        
 
-        BigInteger a = BigInteger.valueOf(42823);
-
-        BigInteger b = BigInteger.valueOf(6409);
-
+        
+        try{
+            menuChoice();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
        
-       System.out.println("Euclidian algorithm\nAnswer = " + myGCD(a, b));
 
-       System.out.println("\n\nExtended euclidian algorithm : \n");
-       displayDXY(myExtGCD(a,b));
-
-       in.close();
     }
 
 
@@ -144,22 +143,7 @@ public class labOne {
         
         return arrayDXY;
     }
-
-    public static void displayBigIntArray(BigInteger[] x)
-    {
-        int count = 0;
-        for(BigInteger i: x)
-        {
-            count ++;
-            System.out.println("Big integer "+count+" = "+i);
-        }
-    }
-
-    public static void displayDXY(BigInteger[] ans)
-    {
-        System.out.println("d value = "+ans[0]+"\nx value = "+ ans[1] + "\ny value = "+ ans[2] + "\n");
-    }
-     
+ 
     public static BigInteger findModInverse(BigInteger a, BigInteger n)
     {
         BigInteger[] DXY = myExtGCD(a, n);
@@ -174,5 +158,78 @@ public class labOne {
         }
     }
     
-   //// public static void 
+    public static BigInteger getValue()
+    {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter Value :");
+        return in.nextBigInteger();
+    }
+
+    
+    public static void menuChoice()
+    {
+        Scanner in = new Scanner(System.in);
+        int option;
+        BigInteger a = BigInteger.valueOf(42823);
+        BigInteger aInverse;
+        BigInteger b = BigInteger.valueOf(6407);
+        BigInteger d ;
+        BigInteger[] DXY = new BigInteger[3]; 
+
+        boolean exit = false;
+        while(!exit)
+        {
+
+            printMenu();
+            option = in.nextInt();
+            if(option==1)
+            {
+                a = getValue();
+                b = getValue();
+            }
+            else if(option==2)
+            {
+                d = myGCD(a, b);
+            }
+            else if(option == 3)
+            {
+                DXY = myExtGCD(a, b);
+            }
+            else if(option == 4)
+            {
+                aInverse = findModInverse(a, b);
+            }
+            else if(option == 6)
+            {
+                exit = true;
+            }
+        }
+
+
+       in.close();
+    }
+
+    public static void printMenu()
+    {
+        System.out.println("Cryptographic Functions:");
+        System.out.println("Add Numbers         \t-1");
+        System.out.println("Euclidian           \t-2");
+        System.out.println("Extended Euclidian  \t-3");
+        System.out.println("Find Modular Inverse\t-4");
+        System.out.println("Primality Checks    \t-5");
+        System.out.println("Exit                \t-6");
+    }
+
+    /*
+    !
+    !
+    !       DISPLAYS
+    !
+    !
+    */
+    public static void display(BigInteger a, BigInteger b)
+    {
+        
+    }
+
 }
