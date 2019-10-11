@@ -1,4 +1,9 @@
+import java.util.Queue;
 import java.util.Scanner;
+import java.util.Stack;
+
+import jdk.nashorn.internal.ir.BinaryNode;
+
 import java.math.BigInteger;
 import java.util.Scanner;
 
@@ -10,10 +15,8 @@ public class labOne {
 
     public static void main(String[] args)
     {
-        
-
-        
         try{
+
             menuChoice();
         }
         catch(Exception e)
@@ -25,7 +28,12 @@ public class labOne {
     }
 
 
-    //* GCD 
+/*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!   Euclidian Algorithm
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+*/
     public static BigInteger myGCD(BigInteger a, BigInteger b)
     {
 
@@ -62,6 +70,13 @@ public class labOne {
         return a;
     }
 
+/*
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!          Extended Euclidian Algorithm
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+*/
     public static BigInteger[] myExtGCD(BigInteger a, BigInteger b)
     {
         /*
@@ -144,6 +159,14 @@ public class labOne {
         return arrayDXY;
     }
  
+/*
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!       Modular Inverse of A mod b
+!                  A^-1
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+*/
     public static BigInteger findModInverse(BigInteger a, BigInteger n)
     {
         BigInteger[] DXY = myExtGCD(a, n);
@@ -158,6 +181,39 @@ public class labOne {
         }
     }
     
+    public static void getBinary(BigInteger a)
+    {
+        Stack<BigInteger> binary = new Stack<>();
+        while(a.equals(BigInteger.ZERO))
+        {
+            binary.add(modVal(a,BigInteger.valueOf(2)));
+            a = a.divide(BigInteger.valueOf(2));
+        }
+        
+    }
+/*
+todo 
+    public static BigInteger repeatedSquareAndMultiply(BigInteger a, BigInteger k)
+    {
+        BigInteger b = BigInteger.ONE;
+        if(k.equals(BigInteger.ZERO))
+        {
+            return b;
+        }
+        BigInteger A = a;
+
+    }
+*/
+    public static BigInteger modVal(BigInteger a, BigInteger n)
+    {
+        if(a.compareTo(n)==1)
+        {
+            return modVal(n, a);
+        }
+        BigInteger q = a.divide(n);
+        return a.subtract(n.multiply(q));
+    }
+
     public static BigInteger getValue()
     {
         Scanner in = new Scanner(System.in);
@@ -165,7 +221,6 @@ public class labOne {
         return in.nextBigInteger();
     }
 
-    
     public static void menuChoice()
     {
         Scanner in = new Scanner(System.in);
@@ -183,7 +238,9 @@ public class labOne {
             printMenu();
             option = in.nextInt();
             if(option==1)
-            {
+            {   
+                display(a, b);
+
                 a = getValue();
                 b = getValue();
 
@@ -214,6 +271,19 @@ public class labOne {
        in.close();
     }
 
+
+
+
+
+
+    /*
+    !
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !       DISPLAYS
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !
+    */
+
     public static void printMenu()
     {
         System.out.println("Cryptographic Functions:");
@@ -224,14 +294,6 @@ public class labOne {
         System.out.println("Primality Checks    \t-5");
         System.out.println("Exit                \t-6\n");
     }
-
-    /*
-    !
-    !
-    !       DISPLAYS
-    !
-    !
-    */
     public static void display(BigInteger a, BigInteger b)
     {
         System.out.println("Integer Values :");
@@ -262,7 +324,6 @@ public class labOne {
         System.out.println("\n");
         
     }
-
     public static void display( BigInteger aInverse)
     {
         System.out.println("Integer Values :");
