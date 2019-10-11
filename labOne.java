@@ -186,18 +186,23 @@ public class labOne {
             {
                 a = getValue();
                 b = getValue();
+
+                display(a, b);
             }
             else if(option==2)
             {
                 d = myGCD(a, b);
+                display(a, b, d);
             }
             else if(option == 3)
             {
                 DXY = myExtGCD(a, b);
+                display(a, b, DXY);
             }
             else if(option == 4)
             {
                 aInverse = findModInverse(a, b);
+                display(aInverse);
             }
             else if(option == 6)
             {
@@ -217,7 +222,7 @@ public class labOne {
         System.out.println("Extended Euclidian  \t-3");
         System.out.println("Find Modular Inverse\t-4");
         System.out.println("Primality Checks    \t-5");
-        System.out.println("Exit                \t-6");
+        System.out.println("Exit                \t-6\n");
     }
 
     /*
@@ -229,6 +234,40 @@ public class labOne {
     */
     public static void display(BigInteger a, BigInteger b)
     {
+        System.out.println("Integer Values :");
+        System.out.println("A value =   "+a);
+        System.out.println("B value =   "+b);
+        System.out.println("\n");
+        
+    }
+    public static void display(BigInteger a, BigInteger b, BigInteger d)
+    {
+        System.out.println("Integer Values :");
+        System.out.println("A value =   "+a);
+        System.out.println("B value =   "+b);
+        System.out.println("D value =   "+d);
+        System.out.println("\n");
+        
+    }
+    public static void display(BigInteger a, BigInteger b, BigInteger[] DXY)
+    {
+        System.out.println("Integer Values :");
+        System.out.println("A value =   "+a);
+        System.out.println("B value =   "+b);
+        System.out.println("D value =   "+DXY[0]);
+        System.out.println("X value =   "+DXY[1]);
+        System.out.println("Y value =   "+DXY[2]);
+        System.out.println("line    =   xa + yb = d");
+        System.out.println("Line equation = ("+DXY[1] + " x " + a + ") + (" + DXY[2] + " x " + b + ") = " + DXY[0]);
+        System.out.println("\n");
+        
+    }
+
+    public static void display( BigInteger aInverse)
+    {
+        System.out.println("Integer Values :");
+        System.out.println("A^-1 value  =   "+aInverse);
+        System.out.println("\n");
         
     }
 
