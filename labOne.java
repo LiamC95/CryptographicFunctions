@@ -1,11 +1,10 @@
+import java.util.Collection;
+import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
-
-import jdk.nashorn.internal.ir.BinaryNode;
-
 import java.math.BigInteger;
-import java.util.Scanner;
+import java.sql.Array;
 
 /**
  *
@@ -173,7 +172,7 @@ public class labOne {
         //* Looks to see if ints are coprime
         if(DXY[0].compareTo(BigInteger.ONE) == 1)
         {
-            throw new ArithmeticException("Numbers are not co-prime!");
+            throw new ArithmeticException("Numbers are not co-prime! Inverse doesn't exsist");
         }
         else{
             //* returning X value 
@@ -181,29 +180,53 @@ public class labOne {
         }
     }
     
-    public static void getBinary(BigInteger a)
-    {
-        Stack<BigInteger> binary = new Stack<>();
-        while(a.equals(BigInteger.ZERO))
-        {
-            binary.add(modVal(a,BigInteger.valueOf(2)));
-            a = a.divide(BigInteger.valueOf(2));
-        }
-        
-    }
-/*
-todo 
-    public static BigInteger repeatedSquareAndMultiply(BigInteger a, BigInteger k)
+
+
+    public static BigInteger repeatedSquare(BigInteger a, BigInteger k, BigInteger n)
     {
         BigInteger b = BigInteger.ONE;
+
         if(k.equals(BigInteger.ZERO))
         {
             return b;
         }
+        Stack<BigInteger> binaryStack = new Stack<>();
+        BigInteger ko = k;
+
         BigInteger A = a;
 
+        //Getting the binary stack
+        while(!ko.equals(BigInteger.ZERO))
+        {
+            binaryStack.add(modVal(ko, BigInteger.valueOf(2)));
+            ko = ko.divide(BigInteger.valueOf(2));
+        }
+        if(binaryStack.pop().equals(BigInteger.ONE))
+        {
+            b = a;
+        }
+        for(int i = 0; i <= binaryStack.size(); i++)
+        {
+            A = modVal(A.multiply(A), n);
+            if(binaryStack.pop().equals(BigInteger.ONE))
+            {
+                b  = modVal(A.multiply(b), n);
+            }
+            System.out.println("B = "+b);
+        }
+
+        return b;
+        
+
     }
-*/
+
+
+
+
+
+    
+
+
     public static BigInteger modVal(BigInteger a, BigInteger n)
     {
         if(a.compareTo(n)==1)
@@ -214,6 +237,8 @@ todo
         return a.subtract(n.multiply(q));
     }
 
+
+   
     public static BigInteger getValue()
     {
         Scanner in = new Scanner(System.in);
@@ -261,6 +286,10 @@ todo
                 aInverse = findModInverse(a, b);
                 display(aInverse);
             }
+            else if(option == 5)
+            {
+                System.out.println("A^b MOD n = "+repeatedSquare(a,b,BigInteger.valueOf(123445)));
+            }
             else if(option == 6)
             {
                 exit = true;
@@ -287,12 +316,12 @@ todo
     public static void printMenu()
     {
         System.out.println("Cryptographic Functions:");
-        System.out.println("Add Numbers         \t-1");
-        System.out.println("Euclidian           \t-2");
-        System.out.println("Extended Euclidian  \t-3");
-        System.out.println("Find Modular Inverse\t-4");
-        System.out.println("Primality Checks    \t-5");
-        System.out.println("Exit                \t-6\n");
+        System.out.println("Add Numbers             \t-1");
+        System.out.println("Euclidian               \t-2");
+        System.out.println("Extended Euclidian      \t-3");
+        System.out.println("Find Modular Inverse    \t-4");
+        System.out.println("Modular Exponentiation  \t-5");
+        System.out.println("Exit                    \t-6\n");
     }
     public static void display(BigInteger a, BigInteger b)
     {
