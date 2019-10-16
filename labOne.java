@@ -182,7 +182,7 @@ public class labOne {
     
 
 
-    public static BigInteger repeatedSquare(BigInteger a, BigInteger k, BigInteger n)
+    public static BigInteger modularExponentiations(BigInteger a, BigInteger k, BigInteger n)
     {
         BigInteger b = BigInteger.ONE;
 
@@ -246,6 +246,20 @@ public class labOne {
         return in.nextBigInteger();
     }
 
+
+
+
+
+
+
+
+    /*
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!       Menu System
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+    */
     public static void menuChoice()
     {
         Scanner in = new Scanner(System.in);
@@ -288,7 +302,7 @@ public class labOne {
             }
             else if(option == 5)
             {
-                System.out.println("A^b MOD n = "+repeatedSquare(a,b,BigInteger.valueOf(123445)));
+                System.out.println("A^b MOD n = "+modularExponentiations(a,b,BigInteger.valueOf(123445)));
             }
             else if(option == 6)
             {
