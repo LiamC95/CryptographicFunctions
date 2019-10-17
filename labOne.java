@@ -161,8 +161,9 @@ public class labOne {
 /*
 !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!       Modular Inverse of A mod b
-!                  A^-1
+!       Modular Inverse of 
+!           input = A mod b
+!           output = A^-1
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 */
@@ -181,43 +182,78 @@ public class labOne {
     }
     
 
+    /*
+!       Modular exponentiation
+!       
+!       Input   = a^k mod n
+!
+!       output  = BigInter r
 
-    public static BigInteger modularExponentiations(BigInteger a, BigInteger k, BigInteger n)
+
+?        Algorithm 1.4 Repeated square-and-multiply algorithms for exponentiation
+?       in Zn
+    */
+
+    public static BigInteger modularExponentiations(BigInteger a, BigInteger b, BigInteger n)
     {
-        BigInteger b = BigInteger.ONE;
+        //todo  Set r ← 1. 
+        BigInteger r = BigInteger.valueOf(1);
 
-        if(k.equals(BigInteger.ZERO))
+        //todo  If b = 0 then return (r).
+        if(b.equals(BigInteger.ZERO))
         {
-            return b;
+            return r;
         }
-        Stack<BigInteger> binaryStack = new Stack<>();
-        BigInteger ko = k;
 
+        //todo  Set A ← a
         BigInteger A = a;
 
-        //Getting the binary stack
-        while(!ko.equals(BigInteger.ZERO))
+        //todo  If b0 = 1 then set r ← a
+        Stack<Boolean> binaryOfb = getBinaryRep(b);
+        if(BigInteger.ONE == modVal(a, BigInteger.valueOf(2)))
         {
-            binaryStack.add(modVal(ko, BigInteger.valueOf(2)));
-            ko = ko.divide(BigInteger.valueOf(2));
+            r = a;
         }
-        if(binaryStack.pop().equals(BigInteger.ONE))
-        {
-            b = a;
-        }
-        for(int i = 0; i <= binaryStack.size(); i++)
-        {
-            A = modVal(A.multiply(A), n);
-            if(binaryStack.pop().equals(BigInteger.ONE))
-            {
-                b  = modVal(A.multiply(b), n);
-            }
-            System.out.println("B = "+b);
-        }
-
-        return b;
         
 
+        //todo  For bi from 1 to t − 1 do the following:
+
+        while(binaryOfb.size() > 1)
+        {   
+            //todo   Set A ← A2 mod n
+
+            A = modVal(A.multiply(A),n);
+
+            //todo  if bi = 1
+            if(binaryOfb.pop())
+            {
+
+                //todo  set r ← A · r mod n
+                r = modVal(A.multiply(r),n);
+            }
+        }
+        return r;
+    }
+
+
+
+    public static Stack<Boolean> getBinaryRep(BigInteger k)
+    {
+        Stack<Boolean> binaryStack = new Stack<>();
+
+        while(!k.equals(BigInteger.ZERO))
+        {
+            if(BigInteger.ZERO == modVal(k, BigInteger.valueOf(2)))
+            {
+                binaryStack.add(false);
+            }
+            else{
+                binaryStack.add(true);
+            }
+            k = k.divide(BigInteger.valueOf(2));
+
+        }
+        return binaryStack;
     }
 
 
@@ -264,10 +300,16 @@ public class labOne {
     {
         Scanner in = new Scanner(System.in);
         int option;
-        BigInteger a = BigInteger.valueOf(42823);
+
+        System.out.println("Enter a value: ");
+        BigInteger a = in.nextBigInteger();
         BigInteger aInverse;
-        BigInteger b = BigInteger.valueOf(6407);
-        BigInteger d ;
+        System.out.println("Enter b value: ");
+        BigInteger b = in.nextBigInteger();
+        BigInteger d;
+        System.out.println("Enter a (mod n) value: ");
+        BigInteger n = in.nextBigInteger();
+
         BigInteger[] DXY = new BigInteger[3]; 
 
         boolean exit = false;
@@ -302,7 +344,7 @@ public class labOne {
             }
             else if(option == 5)
             {
-                System.out.println("A^b MOD n = "+modularExponentiations(a,b,BigInteger.valueOf(123445)));
+                System.out.println("A^b MOD n = "+modularExponentiations(a,b,n));
             }
             else if(option == 6)
             {
