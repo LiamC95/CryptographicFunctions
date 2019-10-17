@@ -14,6 +14,8 @@ public class labOne {
 
     public static void main(String[] args)
     {
+
+
         try{
 
             menuChoice();
@@ -28,12 +30,25 @@ public class labOne {
 
 
 /*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+!   Miller - Rabin Probabilistic Primality Checks
+!   Input = n and t
+!       n >= 3
+!       t >1 & is a security check
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
+    
+
+
+/*
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !   Euclidian Algorithm
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 */
-    public static BigInteger myGCD(BigInteger a, BigInteger b)
+    public static BigInteger greatestCommonDivissorBigInteger(BigInteger a, BigInteger b)
     {
 
 
@@ -45,7 +60,7 @@ public class labOne {
         //todo : Have to if a is greater than b value or swap values
         if(a.compareTo(b) == -1)
         {
-           return myGCD(b, a);
+           return greatestCommonDivissorBigInteger(b, a);
         }
 
 
@@ -76,7 +91,7 @@ public class labOne {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 */
-    public static BigInteger[] myExtGCD(BigInteger a, BigInteger b)
+    public static BigInteger[] extendedEuclidianBigIntegers(BigInteger a, BigInteger b)
     {
         /*
         !      Array Values
@@ -92,7 +107,7 @@ public class labOne {
         //todo : Have to if a is greater than b value or swap values
         if(a.compareTo(b) == -1)
         {
-           return myExtGCD(b, a);
+           return extendedEuclidianBigIntegers(b, a);
         }
 
         //* Now to begin coding the algorithm
@@ -167,9 +182,9 @@ public class labOne {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 */
-    public static BigInteger findModInverse(BigInteger a, BigInteger n)
+    public static BigInteger modularInverseOfaBigInteger(BigInteger a, BigInteger n)
     {
-        BigInteger[] DXY = myExtGCD(a, n);
+        BigInteger[] DXY = extendedEuclidianBigIntegers(a, n);
         //* Looks to see if ints are coprime
         if(DXY[0].compareTo(BigInteger.ONE) == 1)
         {
@@ -194,64 +209,65 @@ public class labOne {
 ?       in Zn
     */
 
-    public static BigInteger modularExponentiations(BigInteger a, BigInteger b, BigInteger n)
+    public static BigInteger modularExponentiationOfaPowbModn(BigInteger a, BigInteger k, BigInteger n)
     {
-        //todo  Set r ← 1. 
-        BigInteger r = BigInteger.valueOf(1);
+        BigInteger b = BigInteger.ONE;
 
-        //todo  If b = 0 then return (r).
-        if(b.equals(BigInteger.ZERO))
+        if(!k.equals(BigInteger.ZERO))
         {
-            return r;
-        }
+            BigInteger A = a;
+            Stack<Boolean>  test = convertkToBinaryStack(k);
+            while(!test.empty())
+            {
+                if(test.pop())
+                {
+                    System.out.print("1");
+                }
+                else{
+                    System.out.print("0");
+                }
 
-        //todo  Set A ← a
-        BigInteger A = a;
+            }
 
-        //todo  If b0 = 1 then set r ← a
-        Stack<Boolean> binaryOfb = getBinaryRep(b);
-        if(BigInteger.ONE == modVal(a, BigInteger.valueOf(2)))
-        {
-            r = a;
-        }
-        
-
-        //todo  For bi from 1 to t − 1 do the following:
-
-        while(binaryOfb.size() > 1)
-        {   
-            //todo   Set A ← A2 mod n
-
-            A = modVal(A.multiply(A),n);
-
-            //todo  if bi = 1
-            if(binaryOfb.pop())
+            System.out.print("\n\n");
+            Stack<Boolean>  binaryOfK = convertkToBinaryStack(k);
+            if(binaryOfK.pop())
+            {
+                b =a;
+            }
+            while(!binaryOfK.empty())
             {
 
-                //todo  set r ← A · r mod n
-                r = modVal(A.multiply(r),n);
+                System.out.println("b value = "+b);
+                A = modBigInteger(A.multiply(A), n);
+
+                if(binaryOfK.pop())
+                {
+                    b = modBigInteger(A.multiply(b), n);
+                }
             }
+
+            
         }
-        return r;
+
+        return b;
     }
 
 
 
-    public static Stack<Boolean> getBinaryRep(BigInteger k)
+    public static Stack<Boolean> convertkToBinaryStack(BigInteger k)
     {
         Stack<Boolean> binaryStack = new Stack<>();
 
-        while(!k.equals(BigInteger.ZERO))
+        String s = k.toString(2);
+        for(int i = 0; i < s.length(); i++)
         {
-            if(BigInteger.ZERO == modVal(k, BigInteger.valueOf(2)))
+            if(s.charAt(i)=='1')
             {
+                binaryStack.add(true);
+            }else{
                 binaryStack.add(false);
             }
-            else{
-                binaryStack.add(true);
-            }
-            k = k.divide(BigInteger.valueOf(2));
-
         }
         return binaryStack;
     }
@@ -263,54 +279,38 @@ public class labOne {
     
 
 
-    public static BigInteger modVal(BigInteger a, BigInteger n)
+    public static BigInteger modBigInteger(BigInteger a, BigInteger n)
     {
-        if(a.compareTo(n)==1)
-        {
-            return modVal(n, a);
-        }
+        
         BigInteger q = a.divide(n);
         return a.subtract(n.multiply(q));
     }
 
 
-   
-    public static BigInteger getValue()
-    {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Enter Value :");
-        return in.nextBigInteger();
-    }
-
-
-
-
-
-
-
 
     /*
-!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!       Menu System
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!
+    !
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !       Menu System
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !
     */
     public static void menuChoice()
     {
         Scanner in = new Scanner(System.in);
-        int option;
+        int option = 1;
+
+        
+        BigInteger d;
+        BigInteger[] DXY = new BigInteger[3]; 
 
         System.out.println("Enter a value: ");
         BigInteger a = in.nextBigInteger();
         BigInteger aInverse;
         System.out.println("Enter b value: ");
         BigInteger b = in.nextBigInteger();
-        BigInteger d;
-        System.out.println("Enter a (mod n) value: ");
+        System.out.println("Enter n value: ");
         BigInteger n = in.nextBigInteger();
-
-        BigInteger[] DXY = new BigInteger[3]; 
 
         boolean exit = false;
         while(!exit)
@@ -320,36 +320,44 @@ public class labOne {
             option = in.nextInt();
             if(option==1)
             {   
-                display(a, b);
-
-                a = getValue();
-                b = getValue();
+                //* allows you to change your values easily
+                System.out.println("Enter a value: ");
+                a = in.nextBigInteger();
+                System.out.println("Enter b value: ");
+                b = in.nextBigInteger();
+                System.out.println("Enter n value: ");
+                n = in.nextBigInteger();
+                
 
                 display(a, b);
             }
             else if(option==2)
             {
-                d = myGCD(a, b);
+                d = greatestCommonDivissorBigInteger(a, b);
                 display(a, b, d);
             }
             else if(option == 3)
             {
-                DXY = myExtGCD(a, b);
+                DXY = extendedEuclidianBigIntegers(a, b);
                 display(a, b, DXY);
             }
             else if(option == 4)
             {
-                aInverse = findModInverse(a, b);
+                aInverse = modularInverseOfaBigInteger(a, b);
                 display(aInverse);
             }
             else if(option == 5)
             {
-                System.out.println("A^b MOD n = "+modularExponentiations(a,b,n));
+                System.out.println("Input the k value you want to use");
+                BigInteger k = in.nextBigInteger();
+                System.out.println("\n"+a+"^"+k+" MOD "+n+" = "+modularExponentiationOfaPowbModn(a,k,n));
+                System.out.println("True output = "+a.pow(k.intValue()).mod(n));
             }
             else if(option == 6)
             {
                 exit = true;
             }
+            
         }
 
 
