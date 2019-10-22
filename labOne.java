@@ -44,6 +44,10 @@ public class labOne {
 */
 public static String MillerRabinProbPrimeTest(BigInteger n, BigInteger t)
 {
+
+    //! Checks for n and t to ensure 
+    //! n is odd and n > 2
+    //! t > 0
     if(n.compareTo(new BigInteger("3"))==0||t.equals(BigInteger.ZERO)||BigInteger.ZERO.equals(modBigInteger(n, new BigInteger("2"))))
     {
         return "Error With your input\nN must be greater than 2 and odd\nt must be greater than 0"; 
@@ -77,7 +81,7 @@ public static String MillerRabinProbPrimeTest(BigInteger n, BigInteger t)
         }
     }
 
-    return n+" is prime";
+    return n+" is probably prime";
 
 
 }
