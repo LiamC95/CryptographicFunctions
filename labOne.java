@@ -5,6 +5,8 @@ import java.util.Scanner;
 import java.util.Stack;
 import java.math.BigInteger;
 import java.sql.Array;
+import java.util.Random;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,8 +18,8 @@ public class labOne {
     {
 
 
-        try{
-
+        try
+        { 
             menuChoice();
         }
         catch(Exception e)
@@ -35,12 +37,98 @@ public class labOne {
 !   Miller - Rabin Probabilistic Primality Checks
 !   Input = n and t
 !       n >= 3
-!       t >1 & is a security check
+!       t >= 1 & is a security check
 !
+!   output if n is prime or not 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 */
+public static String MillerRabinProbPrimeTest(BigInteger n, BigInteger t)
+{
+    if(n.compareTo(new BigInteger("3"))==0||t.equals(BigInteger.ZERO)||BigInteger.ZERO.equals(modBigInteger(n, new BigInteger("2"))))
+    {
+        return "Error With your input\nN must be greater than 2 and odd\nt must be greater than 0"; 
+    }
+    BigInteger s = new BigInteger("0");
+    BigInteger r;
+    BigInteger factor = n.subtract(BigInteger.ONE);
+    while(BigInteger.ZERO.equals(modBigInteger(factor, new BigInteger("2"))))
+    {
+        s = s.add(BigInteger.ONE);
+        factor = factor.divide(new BigInteger("2"));
     
+    }
+    r = factor;
+    for(BigInteger a = new BigInteger("2"); a.compareTo(t)==-1; a = a.add(BigInteger.ONE))
+    {
+        BigInteger y = modularExponentiationOfaPowbModn(a, r, n);
+        if(!y.equals(BigInteger.ONE)&&!y.equals(n.subtract(BigInteger.ONE)))
+        {
+            BigInteger j = BigInteger.ONE;
 
+            while(j.compareTo(s)==-1&&!y.equals(n.subtract(BigInteger.ONE)))
+            {
+                y = modularExponentiationOfaPowbModn(y, new BigInteger("2"), n);
+                j = j.add(BigInteger.ONE);
+            }
+            if(!y.equals(n.subtract(BigInteger.ONE)))
+            {
+                return n+" is Composite";
+            }
+        }
+    }
+
+    return n+" is prime";
+
+
+}
+
+
+public static BigInteger[] fillBigIntegers(BigInteger arraySize, BigInteger maxVal)
+{
+    BigInteger[] testVals = new BigInteger[arraySize.intValue()];
+    BigInteger count = BigInteger.ZERO;
+    while(!count.equals(arraySize))
+    {
+        boolean add =true;
+       BigInteger a = randomBigInteger(maxVal.subtract(BigInteger.ONE));
+       for(BigInteger b : testVals)
+       {
+           if(a.equals(b))
+           {
+                add =false;
+           }
+       }
+       if(add)
+       {
+           System.out.println(a);
+           testVals[count.intValue()].add(a);
+           count = count.add(BigInteger.ONE);
+       }
+    }
+    return testVals;
+}
+
+public static BigInteger randomBigInteger(BigInteger maxVal)
+{
+
+    BigInteger aMax = maxVal.subtract(new BigInteger("2"));
+    BigInteger aMin = new BigInteger("2");
+
+    BigInteger bigInteger = aMax.subtract(aMin);
+    Random randNum = new Random();
+    int len = aMax.bitLength();
+    BigInteger a = new BigInteger(len, randNum);
+    if (a.compareTo(aMin) < 0)
+    {
+        a = a.add(aMin);
+    }
+    if (a.compareTo(bigInteger) >= 0)
+    {
+        a = a.mod(bigInteger).add(aMin);
+    }
+
+    return a;
+}
 
 /*
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -205,31 +293,17 @@ public class labOne {
 !       output  = BigInter r
 
 
-?        Algorithm 1.4 Repeated square-and-multiply algorithms for exponentiation
-?       in Zn
     */
 
     public static BigInteger modularExponentiationOfaPowbModn(BigInteger a, BigInteger k, BigInteger n)
     {
         BigInteger b = BigInteger.ONE;
+        
+        
 
         if(!k.equals(BigInteger.ZERO))
         {
             BigInteger A = a;
-            Stack<Boolean>  test = convertkToBinaryStack(k);
-            while(!test.empty())
-            {
-                if(test.pop())
-                {
-                    System.out.print("1");
-                }
-                else{
-                    System.out.print("0");
-                }
-
-            }
-
-            System.out.print("\n\n");
             Stack<Boolean>  binaryOfK = convertkToBinaryStack(k);
             if(binaryOfK.pop())
             {
@@ -238,7 +312,6 @@ public class labOne {
             while(!binaryOfK.empty())
             {
 
-                System.out.println("b value = "+b);
                 A = modBigInteger(A.multiply(A), n);
 
                 if(binaryOfK.pop())
@@ -281,7 +354,6 @@ public class labOne {
 
     public static BigInteger modBigInteger(BigInteger a, BigInteger n)
     {
-        
         BigInteger q = a.divide(n);
         return a.subtract(n.multiply(q));
     }
@@ -304,13 +376,7 @@ public class labOne {
         BigInteger d;
         BigInteger[] DXY = new BigInteger[3]; 
 
-        System.out.println("Enter a value: ");
-        BigInteger a = in.nextBigInteger();
-        BigInteger aInverse;
-        System.out.println("Enter b value: ");
-        BigInteger b = in.nextBigInteger();
-        System.out.println("Enter n value: ");
-        BigInteger n = in.nextBigInteger();
+        
 
         boolean exit = false;
         while(!exit)
@@ -320,40 +386,58 @@ public class labOne {
             option = in.nextInt();
             if(option==1)
             {   
-                //* allows you to change your values easily
-                System.out.println("Enter a value: ");
-                a = in.nextBigInteger();
-                System.out.println("Enter b value: ");
-                b = in.nextBigInteger();
-                System.out.println("Enter n value: ");
-                n = in.nextBigInteger();
                 
-
-                display(a, b);
             }
             else if(option==2)
             {
+                System.out.println("Enter Value for A:");
+                BigInteger a = in.nextBigInteger();
+                System.out.println("Enter Value for B:");
+                BigInteger b = in.nextBigInteger();
                 d = greatestCommonDivissorBigInteger(a, b);
                 display(a, b, d);
             }
             else if(option == 3)
             {
+                System.out.println("Enter Value for A:");
+                BigInteger a = in.nextBigInteger();
+                System.out.println("Enter Value for B:");
+                BigInteger b = in.nextBigInteger();
                 DXY = extendedEuclidianBigIntegers(a, b);
                 display(a, b, DXY);
             }
             else if(option == 4)
             {
-                aInverse = modularInverseOfaBigInteger(a, b);
+                System.out.println("Enter Value for A:");
+                BigInteger a = in.nextBigInteger();
+                System.out.println("Enter Value for B:");
+                BigInteger b = in.nextBigInteger();
+                BigInteger aInverse = modularInverseOfaBigInteger(a, b);
                 display(aInverse);
             }
             else if(option == 5)
             {
-                System.out.println("Input the k value you want to use");
+                System.out.println("Enter Value for A:");
+                BigInteger a = in.nextBigInteger();
+                System.out.println("Enter Value for K:");
                 BigInteger k = in.nextBigInteger();
+                System.out.println("Enter Value for N:");
+                BigInteger n = in.nextBigInteger();
+                
                 System.out.println("\n"+a+"^"+k+" MOD "+n+" = "+modularExponentiationOfaPowbModn(a,k,n));
                 System.out.println("True output = "+a.pow(k.intValue()).mod(n));
             }
             else if(option == 6)
+            {
+                System.out.println("Enter a number you would like to see if its prime");
+                BigInteger p = in.nextBigInteger();
+
+                System.out.println("Enter a security parameter");
+                BigInteger t = in.nextBigInteger();
+
+                System.out.println(MillerRabinProbPrimeTest(p, t));
+            }
+            else if(option == 7)
             {
                 exit = true;
             }
@@ -385,7 +469,8 @@ public class labOne {
         System.out.println("Extended Euclidian      \t-3");
         System.out.println("Find Modular Inverse    \t-4");
         System.out.println("Modular Exponentiation  \t-5");
-        System.out.println("Exit                    \t-6\n");
+        System.out.println("Primality Chacker       \t-6");
+        System.out.println("Exit                    \t-7\n");
     }
     public static void display(BigInteger a, BigInteger b)
     {
