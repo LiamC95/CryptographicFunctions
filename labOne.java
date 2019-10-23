@@ -1,12 +1,7 @@
-import java.util.Collection;
-import java.util.List;
-import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
 import java.math.BigInteger;
-import java.sql.Array;
 import java.util.Random;
-import java.util.ArrayList;
 
 /**
  *
@@ -45,21 +40,27 @@ public class labOne {
 public static String MillerRabinProbPrimeTest(BigInteger n, BigInteger t)
 {
 
-    //! Checks for n and t to ensure 
-    //! n is odd and n > 2
-    //! t > 0
-    if(n.compareTo(new BigInteger("3"))==0||t.equals(BigInteger.ZERO)||BigInteger.ZERO.equals(modBigInteger(n, new BigInteger("2"))))
+    //* Checks for n and t to ensure 
+    //* n is odd and n > 2
+    //* 0 < t <= n
+    if(n.compareTo(new BigInteger("3"))==0||t.equals(BigInteger.ZERO)||BigInteger.ZERO.equals(modBigInteger(n, new BigInteger("2")))||t.compareTo(n)!=1)
     {
-        return "Error With your input\nN must be greater than 2 and odd\nt must be greater than 0"; 
+
+        if(BigInteger.ZERO.equals(modBigInteger(n, new BigInteger("2"))))
+        {
+            return n+" is Composite\n";
+        }
+        return "Error With your input\nN must be greater than 2 and odd\nt must be greater than 0\n"; 
     }
     BigInteger s = new BigInteger("0");
     BigInteger r;
     BigInteger factor = n.subtract(BigInteger.ONE);
+
+
     while(BigInteger.ZERO.equals(modBigInteger(factor, new BigInteger("2"))))
     {
         s = s.add(BigInteger.ONE);
         factor = factor.divide(new BigInteger("2"));
-    
     }
     r = factor;
     for(BigInteger a = new BigInteger("2"); a.compareTo(t)==-1; a = a.add(BigInteger.ONE))
@@ -76,17 +77,19 @@ public static String MillerRabinProbPrimeTest(BigInteger n, BigInteger t)
             }
             if(!y.equals(n.subtract(BigInteger.ONE)))
             {
-                return n+" is Composite";
+                return n+" is Composite\n";
             }
         }
     }
 
-    return n+" is probably prime";
+    return n+" is probably prime\n";
 
 
 }
 
 
+
+/*
 public static BigInteger[] fillBigIntegers(BigInteger arraySize, BigInteger maxVal)
 {
     BigInteger[] testVals = new BigInteger[arraySize.intValue()];
@@ -134,9 +137,12 @@ public static BigInteger randomBigInteger(BigInteger maxVal)
     return a;
 }
 
+*/
+
 /*
+!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!   Euclidian Algorithm
+!   Euclidian Algorithm GCD(a,b)
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 */
@@ -144,12 +150,14 @@ public static BigInteger randomBigInteger(BigInteger maxVal)
     {
 
 
-        //? Checking input
+        //* Checking input
         if(a.compareTo(BigInteger.ONE)== -1 ||b.compareTo(BigInteger.ONE)==-1)
         {
             throw new ArithmeticException("A and B values must be non negative integers");
         }
+
         //todo : Have to if a is greater than b value or swap values
+
         if(a.compareTo(b) == -1)
         {
            return greatestCommonDivissorBigInteger(b, a);
@@ -180,6 +188,11 @@ public static BigInteger randomBigInteger(BigInteger maxVal)
 !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !          Extended Euclidian Algorithm
+!   input BigInteger a,b;
+!
+!   finds xa + yb = d
+!
+!   outputs Array = [d,x,y]
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 */
@@ -268,7 +281,7 @@ public static BigInteger randomBigInteger(BigInteger maxVal)
 /*
 !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!       Modular Inverse of 
+!       Modular Inverse of a
 !           input = A mod b
 !           output = A^-1
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -290,12 +303,15 @@ public static BigInteger randomBigInteger(BigInteger maxVal)
     
 
     /*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
 !       Modular exponentiation
 !       
 !       Input   = a^k mod n
 !
 !       output  = BigInter r
-
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     */
 
@@ -351,11 +367,16 @@ public static BigInteger randomBigInteger(BigInteger maxVal)
 
 
 
-
-
+/*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!       Mod Biginteger 
+!
+!       input BigInteger a,b
+!
+!       output a%b
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
     
-
-
     public static BigInteger modBigInteger(BigInteger a, BigInteger n)
     {
         BigInteger q = a.divide(n);
