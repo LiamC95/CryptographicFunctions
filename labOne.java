@@ -43,7 +43,7 @@ public static String MillerRabinProbPrimeTest(BigInteger n, BigInteger t)
     //* Checks for n and t to ensure 
     //* n is odd and n > 2
     //* 0 < t <= n
-    if(n.compareTo(new BigInteger("3"))==0||t.equals(BigInteger.ZERO)||BigInteger.ZERO.equals(modBigInteger(n, new BigInteger("2")))||t.compareTo(n)!=1)
+    if(n.compareTo(new BigInteger("3"))==0||t.equals(BigInteger.ZERO)||BigInteger.ZERO.equals(modBigInteger(n, new BigInteger("2"))))
     {
 
         if(BigInteger.ZERO.equals(modBigInteger(n, new BigInteger("2"))))
