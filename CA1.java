@@ -1,7 +1,5 @@
-import java.util.Scanner;
 import java.util.Stack;
 import java.math.BigInteger;
-import java.util.Random;
 import java.util.ArrayList;
 
 /**
@@ -113,7 +111,6 @@ public static ArrayList<BigInteger> getFactors(BigInteger factorise)
 {
     ArrayList<BigInteger> factors = new ArrayList<>();
 
-    int size = 16;
     BigInteger n = factorise;
     BigInteger i = new BigInteger("0");
     for(i=new BigInteger("2");i.compareTo(n)==-1;i =
